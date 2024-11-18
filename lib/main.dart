@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
+import 'core/utils/api_keys.dart';
 import 'core/utils/color_manager.dart';
 import 'features/checkout/presentation/views/my_cart_view.dart';
 
-void main() {
+void main()async {
+  Stripe.publishableKey = ApiKeys.publishableKey;
   runApp(const CheckoutApp());
 }
 
@@ -25,27 +28,8 @@ class CheckoutApp extends StatelessWidget {
 // 1. paymentIntentObject = create payment intent (amount,currency)
 // 2. initialize the payment sheet(paymentIntentClientSecret)
 // 3. present paymentSheet()
-
-// Future<void> initPaymentSheet() async {
-//   try {
-//
-//     // 2. initialize the payment sheet
-//     await Stripe.instance.initPaymentSheet(
-//       paymentSheetParameters: SetupPaymentSheetParameters(
-//         // Main params
-//         merchantDisplayName: 'Flutter Stripe Store Demo',
-//         paymentIntentClientSecret: data['paymentIntent'],
-//
-//       ),
-//     );
-//     setState(() {
-//       _ready = true;
-//     });
-//   } catch (e) {
-//     ScaffoldMessenger.of(context).showSnackBar(
-//       SnackBar(content: Text('Error: $e')),
-//     );
-//     rethrow;
-//   }
-// }
-//
+        // if i want save card details
+// we can add customerID to payment intent (amount,currency,customerID)
+// create  EphemeralKeySecret = EphemeralKey(stripeVersion, customerID)
+// 2. initialize the payment sheet(paymentIntentClientSecret, merchantDisplayName, EphemeralKeySecret)
+// 3. present paymentSheet()

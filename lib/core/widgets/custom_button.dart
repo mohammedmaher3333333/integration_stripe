@@ -5,10 +5,12 @@ import 'package:integration/core/utils/styles_manager.dart';
 import 'package:integration/core/utils/values_manager.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, required this.text, this.onTap});
+  const CustomButton(
+      {super.key, required this.text, this.onTap, this.isLoading = false});
 
   final String text;
   final void Function()? onTap;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +24,15 @@ class CustomButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppSize.s15),
         ),
         child: Center(
-            child: Text(
-          text,
-          style: getMediumStyle(
-            color: ColorManager.black,
-            fontSize: FontSize.s22,
-          ),
-        )),
+            child: isLoading
+                ? const CircularProgressIndicator()
+                : Text(
+                    text,
+                    style: getMediumStyle(
+                      color: ColorManager.black,
+                      fontSize: FontSize.s22,
+                    ),
+                  )),
       ),
     );
   }

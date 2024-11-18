@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:integration/core/widgets/custom_button.dart';
 import 'package:integration/core/widgets/custom_divider.dart';
+import 'package:integration/features/checkout/data/repos/checkout_repo_impl.dart';
+import 'package:integration/features/checkout/presentation/manager/stripe_payment_cubit/stripe_payment_cubit.dart';
 import 'package:integration/features/checkout/presentation/views/widgets/display_orders_image.dart';
 import 'package:integration/features/checkout/presentation/views/widgets/order_info_item.dart';
-import 'package:integration/features/checkout/presentation/views/widgets/payment_methods_list_view.dart';
+import 'package:integration/features/checkout/presentation/views/widgets/payment_methods_bottom_sheet.dart';
 import 'package:integration/features/checkout/presentation/views/widgets/total_price.dart';
-
 import '../../../../../core/utils/strings_manager.dart';
 import '../../../../../core/utils/values_manager.dart';
 
@@ -44,45 +46,18 @@ class MyCardViewBody extends StatelessWidget {
           CustomButton(
             text: AppStrings.completePayment,
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const PaymentDetailsView(),
-              //   ),
-              // );
               showModalBottomSheet(
-                context: context,
-                builder: (context) => const PaymentMethodsBottomSheet(),
-              );
+                  context: context,
+                  builder: (context) {
+                    return BlocProvider(
+                      create: (context) =>
+                          StripePaymentCubit(CheckoutRepoImpl()),
+                      child: const PaymentMethodsBottomSheet(),
+                    );
+                  });
             },
           ),
           const SizedBox(height: AppSize.s10),
-        ],
-      ),
-    );
-  }
-}
-
-class PaymentMethodsBottomSheet extends StatelessWidget {
-  const PaymentMethodsBottomSheet({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(AppPadding.p16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: AppSize.s16,
-          ),
-          PaymentMethodsListView(),
-          SizedBox(
-            height: AppSize.s32,
-          ),
-          CustomButton(
-            text: AppStrings.continueText,
-          ),
         ],
       ),
     );
