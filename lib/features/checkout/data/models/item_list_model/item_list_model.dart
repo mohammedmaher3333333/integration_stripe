@@ -1,23 +1,23 @@
-import 'items.dart';
+import 'order_items_model.dart';
 
 class ItemListModel {
   ItemListModel({
-      this.items,});
+      this.orders,});
 
   ItemListModel.fromJson(dynamic json) {
     if (json['items'] != null) {
-      items = [];
+      orders = [];
       json['items'].forEach((v) {
-        items?.add(Items.fromJson(v));
+        orders?.add(OrderItemsModel.fromJson(v));
       });
     }
   }
-  List<Items>? items;
+  List<OrderItemsModel>? orders;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    if (items != null) {
-      map['items'] = items?.map((v) => v.toJson()).toList();
+    if (orders != null) {
+      map['items'] = orders?.map((v) => v.toJson()).toList();
     }
     return map;
   }

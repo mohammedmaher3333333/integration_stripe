@@ -1,28 +1,32 @@
-import 'details.dart';
+import 'package:integration/features/checkout/data/models/amount_model/details_model.dart';
 
 class AmountModel {
-  AmountModel({
-      this.total, 
-      this.currency, 
-      this.details,});
+  final String? total;
+  final String? currency;
+  final Details? details;
 
-  AmountModel.fromJson(dynamic json) {
-    total = json['total'];
-    currency = json['currency'];
-    details = json['details'] != null ? Details.fromJson(json['details']) : null;
+  AmountModel({
+    required this.total,
+    required this.currency,
+    required this.details,
+  });
+
+  factory AmountModel.fromJson(Map<String, dynamic> json) {
+    return AmountModel(
+      total: json['total'] as String?,
+      currency: json['currency'] as String?,
+      details:
+          json['details'] != null ? Details.fromJson(json['details']) : null,
+    );
   }
-  String? total;
-  String? currency;
-  Details? details;
 
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['total'] = total;
-    map['currency'] = currency;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['total'] = total;
+    data['currency'] = currency;
     if (details != null) {
-      map['details'] = details?.toJson();
+      data['details'] = details!.toJson();
     }
-    return map;
+    return data;
   }
-
 }
